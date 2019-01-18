@@ -54,7 +54,7 @@ function fivesend(){
 	if(btn.value==1){
 		btn.innerHTML='关闭轰炸';
 		btn.value=0;
-		interval=setInterval(show,10000);
+		interval=setInterval(show,15000);
 	}else{
 		btn.innerHTML='开启轰炸';
 		btn.value=1;

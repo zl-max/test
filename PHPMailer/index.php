@@ -41,7 +41,7 @@ $mail->addAddress($_POST['mailaddr']);
 // 添加该邮件的主题
 $mail->Subject = 'hello';
 // 添加邮件正文
-$mail->Body = '<h1>Hello World</h1>';
+$mail->Body = '<h1>小伙子!</h1>';
 // 为该邮件添加附件
 // $mail->addAttachment('../t2.txt');
 // 发送邮件 返回状态
