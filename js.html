@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="da" style="width: 200px;height: 30px;border: 10px solid black;"></div>
+	<script type="text/javascript">
+		var arr=['red','yellow','blue','black','green'];
+		var da=document.getElementById('da');
+		function change(){
+			var i=0;
+			function show(){
+				i= i>=arr.length?0:i;
+				da.style.setProperty("border-color",arr[i++]);
+			}
+			return show;
+		}
+
+		var bgcolor=change();
+		setInterval(bgcolor,3000);
+	</script>
+</body>
+</html>

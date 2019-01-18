@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="/index/public/world.css">
+	<script type="text/javascript" src="jquery/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="http://pv.sohu.com/cityjson"></script>
+	<script type="text/javascript">
+			$(function(){
+				$('#myip').html(returnCitySN.cname+','+returnCitySN.cip);
+			})
+	</script>
+</head>
+<body style="margin: 0">
+	<div style="text-align: center;padding: 140px">
+		你的ip地址是:<a id="myip"></a>
+	</div>	
+	<a href="" style="margin: 50%">hello</a>
+</body>
+</html>

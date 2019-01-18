@@ -1,0 +1,27 @@
+<!-- <?xml version="1.0" encoding="ISO-8859-1"?> -->
+<CATALOG>
+	<CD>
+		<TITLE>descripe</TITLE>
+		<BRAND>BMW</BRAND>
+		<COUNTRY>USA</COUNTRY>
+		<COMPANY>Columbia</COMPANY>
+		<PRICE>10.90</PRICE>
+		<YEAR>1985</YEAR>
+	</CD>
+	<CD>
+		<TITLE>descripe</TITLE>
+		<BRAND>Benz</BRAND>
+		<COUNTRY>UK</COUNTRY>
+		<COMPANY>CBS Records</COMPANY>
+		<PRICE>11.90</PRICE>
+		<YEAR>1988</YEAR>
+	</CD>
+	<ED>
+		<TITLE>descripe</TITLE>
+		<BRAND>AUDI</BRAND>
+		<COUNTRY>UK</COUNTRY>
+		<COMPANY>CBS Records</COMPANY>
+		<PRICE>15.90</PRICE>
+		<YEAR>1990</YEAR>
+	</ED>
+</CATALOG>	
