@@ -1,45 +1,210 @@
-<?php 
-// 引入PHPMailer的核心文件
-require "../PHPMailer/src/PHPMailer.php";
-require "../PHPMailer/src/SMTP.php";
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>taobao首页轮播原生js面对对象封装版</title>
+<style>
+<!--
+body, ul, li, p {
+	margin: 0;
+	padding: 0;
+}
+ul{
+	list-style-type:none;
+}
+body {
+	font-family:"Times New Roman", Times, serif;
+}
+#box {
+	position:relative;
+	width:492px;
+	height:172px;
+	margin:10px auto;
+}
+#box .imgList{
+	position:relative;
+	width:490px;
+	height:170px;
+	overflow:hidden;
+}
+#box .imgList li{
+	position:absolute;
+	top:0;
+	left:0;
+	width:490px;
+	height:170px;
+}
+#box .countNum{
+	position:absolute;
+	right:0;
+	bottom:5px;
+}
+#box .countNum li{
+	width:20px;
+	height:20px;
+	float:left;
+	color:#fff;
+	border-radius:20px;
+	background:#f90;
+	text-align:center;
+	margin-right:5px;
+	cursor:pointer;
+	opacity:0.7;
+	filter:alpha(opacity=70);
+}
+#box .countNum li.current{
+	background:#f60;
+	font-weight:bold;
+	opacity:1;
+	filter:alpha(opacity=70);
+}
+-->
+</style>
+<script>
+<!--
+	function runImg(){}
+	runImg.prototype={
+		bigbox:null,//最外层容器
+		boxul:null,//子容器ul
+		imglist:null,//子容器img
+		numlist:null,//子容器countNum
+		index:0,//当前显示项
+		timer:null,//控制图片转变效果
+		play:null,//控制自动播放
+		imgurl:[],//存放图片
+		count:0,//存放的个数
+		$:function(obj)
+		{
+			if(typeof(obj)=="string")
+			{
+				if(obj.indexOf("#")>=0)
+				{
+					obj=obj.replace("#","");
+					if(document.getElementById(obj))
+					{
+						return document.getElementById(obj);
+					}
+					else
+					{
+						alert("没有容器"+obj);
+						return null;
+					}	
+				}
+				else
+				{
+					return document.createElement(obj);
+				}
+			}
+			else
+			{
+				return obj;
+			}
+		},
+		//初始化
+		info:function(id)
+		{
+			this.count=this.count<=5?this.count:5;
+			this.bigbox=this.$(id);
+			// console.log(this.$(id));
+			for(var i=0;i<2;i++)
+			{
+				var ul=this.$("ul");
+				for(var j=1;j<=this.count;j++)
+				{
+					var li=this.$("li");
+					li.innerHTML=i==0?this.imgurl[j-1]:j;
+					ul.appendChild(li);
+				}
+				this.bigbox.appendChild(ul);
+			}
+			this.boxul=this.bigbox.getElementsByTagName("ul");
+			this.boxul[0].className="imgList";
+			this.boxul[1].className="countNum";
+			this.imglist=this.boxul[0].getElementsByTagName("li");
+			this.numlist=this.boxul[1].getElementsByTagName("li");
+			this.numlist[0].className="current";
+		},
+		//封装程序入口
+		action:function(id)
+		{
+			this.autoplay();
+			this.mouseoverout(this.bigbox,this.numlist);
+		},
+		//图片切换效果
+		imgshow:function(num,numlist,imglist)
+		{
+			this.index=num;
+			var alpha=0;
+			for(var i=0;i<numlist.length;i++)
+			{
+				numlist[i].className="";
+			}
+			numlist[this.index].className="current";
+			clearInterval(this.timer);
+			for(var j=0;j<imglist.length;j++)
+			{
+				imglist[j].style.opacity=0;
+				imglist[j].style.filter="alpha(opacity=0)";
+			}
+			var $this=this;
+			//利用透明度来实现切换图片
+			this.timer=setInterval(function(){
+				alpha+=2;
+				if(alpha>100){alpha=100};//不能大于100
+				//为兼容性赋样式
+				imglist[$this.index].style.opacity=alpha/100;
+				imglist[$this.index].style.filter="alpha(opacity="+alpha+")";
+				if(alpha==100){clearInterval($this.timer)};//当等于100的时候就切换完成了
+			},20)//经测试20是我认为最合适的值
+		},
+		//自动播放
+		autoplay:function(){
+			var $this=this;
+			this.play=setInterval(function(){
+				$this.index++;
+				if($this.index>$this.imglist.length-1){$this.index=0};
+				$this.imgshow($this.index,$this.numlist,$this.imglist);
+				},2000)
+		},
+		//处理鼠标事件
+		mouseoverout:function(box,numlist)
+		{
+			var $this=this;
+			box.onmouseover=function()
+			{
+				clearInterval($this.play);
+			}
+			box.onmouseout=function()
+			{
+				$this.autoplay($this.index);
+			}
+			for(var i=0;i<numlist.length;i++)
+			{
+				numlist[i].index=i;
+				numlist[i].onmouseover=function(){
+					$this.imgshow(this.index,$this.numlist,$this.imglist);
+				}
+			}
+		}
+	}
+	window.onload=function(){
+		var runimg=new runImg();
+		runimg.count=5;
+		runimg.imgurl=[
+		"<img src=\"http://i.mmcdn.cn/simba/img/T117eTXmXqXXXXXXXX.jpg\"/>",
+		"<img src=\"http://img03.taobaocdn.com/tps/i3/T1t8eTXbBtXXXXXXXX-490-170.png\"/>",
+		"<img src=\"http://i.mmcdn.cn/simba/img/T1OVOUXeNjXXXXXXXX.jpg\"/>",
+		"<img src=\"http://i.mmcdn.cn/simba/img/T1J.9TXc8lXXXXXXXX.jpg\"/>",
+		"<img src=\"http://img03.taobaocdn.com/tps/i3/T1ITuTXbRnXXXXXXXX-490-170.png\"/>"];
+		runimg.info("#box");
+		runimg.action("#box");
+	}
+-->
+</script>
+</head>
 
-// 实例化PHPMailer核心类
-$mail = new PHPMailer\PHPMailer\PHPMailer();
-// 是否启用smtp的debug进行调试 开发环境建议开启 生产环境注释掉即可 默认关闭debug调试模式
-// $mail->SMTPDebug = 1;
-// 使用smtp鉴权方式发送邮件
-$mail->isSMTP();
-// smtp需要鉴权 这个必须是true
-$mail->SMTPAuth = true;
-// 链接qq域名邮箱的服务器地址
-$mail->Host = 'smtp.qq.com';
-// 设置使用ssl加密方式登录鉴权
-$mail->SMTPSecure = 'ssl';
-// 设置ssl连接smtp服务器的远程服务器端口号
-$mail->Port = 465;
-// 设置发送的邮件的编码
-$mail->CharSet = 'UTF-8';
-// 设置发件人昵称 显示在收件人邮件的发件人邮箱地址前的发件人姓名
-$mail->FromName = 'zl_max';
-// smtp登录的账号 QQ邮箱即可
-$mail->Username = '582152734@qq.com';
-// smtp登录的密码 使用生成的授权码
-$mail->Password = 'ytmpxhizozxdbcii';
-// 设置发件人邮箱地址 同登录账号
-$mail->From = '582152734@qq.com';
-// 邮件正文是否为html编码 注意此处是一个方法
-$mail->isHTML(true);
-// 设置收件人邮箱地址
-$mail->addAddress('641886923@qq.com');
-// 添加多个收件人 则多次调用方法即可
-$mail->addAddress('zaq_max@163.com');
-// 添加该邮件的主题
-$mail->Subject = 'hello';
-// 添加邮件正文
-$mail->Body = '<h1>Hello World</h1>';
-// 为该邮件添加附件
-$mail->addAttachment('../t2.txt');
-// 发送邮件 返回状态
-$status = $mail->send();
-
-echo $status;
+<body>
+<center><h1>Author:wyf</h1><p>2012/2/24</p></center>
+<div id="box"></div>
+</body>
+</html>
